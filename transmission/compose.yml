@@ -1,0 +1,48 @@
+name: transmission
+
+volumes:
+  transmission-config:
+  ts-transmission-state:
+
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission:4.0.5
+    depends_on:
+      - ts-transmission
+    network_mode: service:ts-transmission
+    cap_add:
+      - cap-no-new-privs
+    environment:
+      TZ: Europe/Budapest
+      PUID: 1000
+      PGID: 1000
+      # Add docker mods:
+      # - https://github.com/linuxserver/docker-mods/tree/transmission-floodui
+      DOCKER_MODS: linuxserver/mods:transmission-floodui
+    volumes:
+      - transmission-config:/config
+      - /data/downloads:/downloads
+      - /data/torrent:/watch
+    restart: unless-stopped
+  
+  ts-transmission:
+    image: tailscale/tailscale:v1.60.0
+    hostname: transmission
+    cap_add:
+      - net_admin
+      - sys_module
+      - cap-no-new-privs
+    environment:
+      TZ: Europe/Budapest
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY:?required TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_SERVE_CONFIG: /config/transmission.json
+      TS_STATE_DIR: /var/lib/tailscale
+    volumes:
+      - ts-transmission-state:/var/lib/tailscale
+      - ./ts-transmission/config:/config:ro
+      - /dev/net/tun:/dev/net/tun
+    restart: unless-stopped
