@@ -17,8 +17,8 @@ jobs:
             
             - name: Deploy
               run: |
-                rsync -avz --del transmission ${{ secrets.OLITUDE_HOST }}:${{ secrets.SOLITUDE_DEPLOY_DIR }}/
-                ssh ${{ secrets.OLITUDE_HOST }} "\
+                rsync -avz --del transmission ${{ secrets.SOLITUDE_HOST }}:${{ secrets.SOLITUDE_DEPLOY_DIR }}/
+                ssh ${{ secrets.SOLITUDE_HOST }} "\
                     export INFISICAL_DISABLE_UPDATE_CHECK=true && \
                     export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=${{ secrets.INFISICAL_CLIENT_ID }} --client-secret=${{ secrets.INFISICAL_CLIENT_SECRET }} --silent --plain) && \
                     cd ${{ secrets.SOLITUDE_DEPLOY_DIR }}/transmission && \
