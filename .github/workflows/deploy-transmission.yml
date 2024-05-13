@@ -27,7 +27,7 @@ jobs:
             
             - name: Deploy
               env: 
-                DEPLOY_DIR: $REMOTE_DIR/$SERVICE_NAME
+                DEPLOY_DIR: $REMOTE_DIR/$SERVICE_DIR
                 PROJECT_ID: ${{ secrets.INFISICAL_PROJECT_ID }}
                 CLIENT_ID: ${{ secrets.INFISICAL_CLIENT_ID }}
                 CLIENT_SECRET: ${{ secrets.INFISICAL_CLIENT_SECRET }}
@@ -35,8 +35,10 @@ jobs:
               run: |
                 ssh $HOST "
                     set -o pipefail
+                    echo "here I am: $PWD"
+                    echo "deploy dir: $DEPLOY_DIR"
                     cd $DEPLOY_DIR
-                    pwd
+                    echo "here I am: $PWD"
                     export INFISICAL_DISABLE_UPDATE_CHECK=true
                     export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=$CLIENT_ID --client-secret=$CLIENT_SECRET --silent --plain)
                     infisical run --project-config-dir=../ --projectId=$PROJECT_ID --path=$SECRET_PATH --env=prod --command='docker compose up -d --pull always --force-recreate'
