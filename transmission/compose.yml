@@ -6,7 +6,7 @@ volumes:
 
 services:
   transmission:
-    image: lscr.io/linuxserver/transmission:2021.11.18
+    image: lscr.io/linuxserver/transmission:4.0.5
     depends_on:
       - ts-transmission
     network_mode: service:ts-transmission
