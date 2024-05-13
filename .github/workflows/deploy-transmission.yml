@@ -35,8 +35,9 @@ jobs:
               run: |
                 ssh $HOST "
                     set -o pipefail
-                    echo "here I am: $PWD"
-                    echo "deploy dir: $DEPLOY_DIR"
+                    hostname
+                    echo \"here I am: $PWD\"
+                    echo \"deploy dir: $DEPLOY_DIR\"
                     cd $DEPLOY_DIR
                     echo "here I am: $PWD"
                     export INFISICAL_DISABLE_UPDATE_CHECK=true
