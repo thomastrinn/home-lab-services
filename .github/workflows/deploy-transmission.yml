@@ -35,5 +35,9 @@ jobs:
               run: |
                 ssh $HOST "
                     cd \"$DEPLOY_DIR\" || exit
+                    export PROJECT_ID=$PROJECT_ID
+                    export CLIENT_ID=$CLIENT_ID
+                    export CLIENT_SECRET=$CLIENT_SECRET
+                    export SECRET_PATH=$SECRET_PATH
                     ./service_deploy.sh
                 "
