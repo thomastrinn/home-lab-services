@@ -19,8 +19,9 @@ jobs:
               run: |
                 rsync -avz --del transmission ${{ secrets.SOLITUDE_HOST }}:${{ secrets.SOLITUDE_DEPLOY_DIR }}/
                 ssh ${{ secrets.SOLITUDE_HOST }} "\
+                    set -o pipefail && \
                     export INFISICAL_DISABLE_UPDATE_CHECK=true && \
                     export INFISICAL_TOKEN=$(infisical login --method=universal-auth --client-id=${{ secrets.INFISICAL_CLIENT_ID }} --client-secret=${{ secrets.INFISICAL_CLIENT_SECRET }} --silent --plain) && \
                     cd ${{ secrets.SOLITUDE_DEPLOY_DIR }}/transmission && \
-                    infisical run --projectId=${{ secrets.INFISICAL_PROJECT_ID }} --path=/services/transmission --env=prod --command=\"docker compose up -d --force-recreate\" \
+                    infisical run --projectId=${{ secrets.INFISICAL_PROJECT_ID }} --path=/services/transmission --env=prod --command=\"docker compose up -d --pull always --force-recreate\" \
                     "
