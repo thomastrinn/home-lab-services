@@ -1,0 +1,72 @@
+name: 'mealie'
+
+volumes:
+  mealie-data:
+  mealie-db-data:
+  ts-mealie-state:
+
+services:
+  mealie:
+    image: ghcr.io/mealie-recipes/mealie:v1.4.0
+    network_mode: service:ts-mealie
+    depends_on:
+      - mealie-db
+      - ts-mealie
+    environment:
+      TZ: Europe/Budapest
+      ALLOW_SIGNUP: true
+      PUID: 1000
+      PGID: 1000
+      MAX_WORKERS: 1
+      WEB_CONCURRENCY: 1
+      BASE_URL: ${BASE_URL:?required BASE_URL}
+      # Database Settings
+      DB_ENGINE: postgres
+      POSTGRES_SERVER: 127.0.0.1
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:?required POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?required POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required POSTGRES_PASSWORD}
+    volumes:
+      - mealie-data:/app/data/
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+  
+  mealie-db:
+    image: postgres:15
+    network_mode: service:ts-mealie
+    depends_on:
+      - ts-mealie
+    volumes:
+      - mealie-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?required POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER:?required POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?required POSTGRES_PASSWORD}
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+  
+  ts-mealie:
+    image: tailscale/tailscale:v1.62.0
+    hostname: mealie
+    environment:
+      TZ: Europe/Budapest
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY:?required TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_SERVE_CONFIG: /config/mealie.json
+      TS_STATE_DIR: /var/lib/tailscale
+    volumes:
+      - ts-mealie-state:/var/lib/tailscale
+      - ./ts-mealie/config:/config:ro
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
