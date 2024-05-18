@@ -8,10 +8,10 @@ on:
     workflow_dispatch:
 
 env:
-    SERVICE_NAME: transmission
-    SERVICE_DIR: transmission
     HOST: ${{ secrets.SOLITUDE_HOST }}
-    REMOTE_DIR: ${{ secrets.SOLITUDE_DEPLOY_DIR }}
+    DEPLOY_DIR: ${{ secrets.SOLITUDE_DEPLOY_DIR }}
+    SERVICE_DIR: transmission
+    SECRET_PATH: /services/transmission
 
 jobs:
     deploy:
@@ -21,17 +21,16 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
             
-            - run: rsync -avz --del $SERVICE_DIR $HOST:$REMOTE_DIR/
-            - run: rsync -avz service_deploy.sh $HOST:$REMOTE_DIR/$SERVICE_DIR
-            - run: rsync -avz .infisical.json $HOST:$REMOTE_DIR/$SERVICE_DIR
+            - run: rsync -avz --del $SERVICE_DIR $HOST:$DEPLOY_DIR/
+            - run: rsync -avz service_deploy.sh $HOST:$DEPLOY_DIR/$SERVICE_DIR
+            - run: rsync -avz .infisical.json $HOST:$DEPLOY_DIR/$SERVICE_DIR
             
             - name: Deploy
               env: 
-                DEPLOY_DIR: ${{ secrets.SOLITUDE_DEPLOY_DIR }}/transmission
+                DEPLOY_DIR: ${{ env.DEPLOY_DIR }}/${{ env.SERVICE_DIR }}
                 PROJECT_ID: ${{ secrets.INFISICAL_PROJECT_ID }}
                 CLIENT_ID: ${{ secrets.INFISICAL_CLIENT_ID }}
                 CLIENT_SECRET: ${{ secrets.INFISICAL_CLIENT_SECRET }}
-                SECRET_PATH: /services/transmission
               run: |
                 ssh $HOST "
                     cd \"$DEPLOY_DIR\" || exit
