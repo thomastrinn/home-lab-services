@@ -1,0 +1,42 @@
+name: Deploy Mealie
+
+on:
+    push:
+        branches: [ "main" ]
+        paths:
+        - 'mealie/**'
+    workflow_dispatch:
+
+env:
+    HOST: ${{ secrets.SOLITUDE_HOST }}
+    DEPLOY_DIR: ${{ secrets.SOLITUDE_DEPLOY_DIR }}
+    SERVICE_DIR: mealie
+    SECRET_PATH: /services/mealie
+
+jobs:
+    deploy:
+        runs-on: self-hosted
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            
+            - run: rsync -avz --del $SERVICE_DIR $HOST:$DEPLOY_DIR/
+            - run: rsync -avz service_deploy.sh $HOST:$DEPLOY_DIR/$SERVICE_DIR
+            - run: rsync -avz .infisical.json $HOST:$DEPLOY_DIR/$SERVICE_DIR
+            
+            - name: Deploy
+              env: 
+                DEPLOY_DIR: ${{ env.DEPLOY_DIR }}/${{ env.SERVICE_DIR }}
+                PROJECT_ID: ${{ secrets.INFISICAL_PROJECT_ID }}
+                CLIENT_ID: ${{ secrets.INFISICAL_CLIENT_ID }}
+                CLIENT_SECRET: ${{ secrets.INFISICAL_CLIENT_SECRET }}
+              run: |
+                ssh $HOST "
+                    cd \"$DEPLOY_DIR\" || exit
+                    export PROJECT_ID=$PROJECT_ID
+                    export CLIENT_ID=$CLIENT_ID
+                    export CLIENT_SECRET=$CLIENT_SECRET
+                    export SECRET_PATH=$SECRET_PATH
+                    ./service_deploy.sh
+                "
