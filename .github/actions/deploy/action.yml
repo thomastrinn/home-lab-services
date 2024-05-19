@@ -29,14 +29,18 @@ runs:
 
   steps:
     - run: rsync -avz --del ${{ inputs.service_dir_name }} ${{ inputs.host }}:${{ inputs.service_root_dir }}/
+      shell: bash
     - run: rsync -avz service_deploy.sh ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
+      shell: bash
     - run: rsync -avz .infisical.json ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
+      shell: bash
     - name: Deploy
       env: 
         DEPLOY_DIR: ${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
         PROJECT_ID: ${{ secrets.infisical_project_id }}
         CLIENT_ID: ${{ secrets.infisical_client_id }}
         CLIENT_SECRET: ${{ secrets.infisical_client_secret }}
+      shell: bash
       run: |
         ssh $HOST "
             cd \"$DEPLOY_DIR\" || exit
