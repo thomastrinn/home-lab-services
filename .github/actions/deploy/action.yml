@@ -37,9 +37,9 @@ runs:
     - name: Deploy
       env: 
         DEPLOY_DIR: ${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
-        PROJECT_ID: ${{ secrets.infisical_project_id }}
-        CLIENT_ID: ${{ secrets.infisical_client_id }}
-        CLIENT_SECRET: ${{ secrets.infisical_client_secret }}
+        PROJECT_ID: ${{ inputs.infisical_project_id }}
+        CLIENT_ID: ${{ inputs.infisical_client_id }}
+        CLIENT_SECRET: ${{ inputs.infisical_client_secret }}
       shell: bash
       run: |
         ssh $HOST "
