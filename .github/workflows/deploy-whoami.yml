@@ -18,7 +18,7 @@ jobs:
               with:
                 host: ${{ secrets.SOLITUDE_HOST }}
                 service_root_dir: ${{ secrets.SOLITUDE_DEPLOY_DIR }}
-                service_dir: whoami
+                service_dir_name: whoami
                 infisical_project_id: ${{ secrets.INFISICAL_PROJECT_ID }}
                 infisical_client_id: ${{ secrets.INFISICAL_CLIENT_ID }}
                 infisical_client_secret: ${{ secrets.INFISICAL_CLIENT_SECRET }}
