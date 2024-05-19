@@ -49,5 +49,5 @@ runs:
             export CLIENT_ID=$CLIENT_ID
             export CLIENT_SECRET=$CLIENT_SECRET
             export SECRET_PATH=$SECRET_PATH
-            ./service_deploy.sh
+            ./.github/service_deploy.sh
         "
