@@ -10,7 +10,7 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["*"],
-      "assignees": ["thomas"]
+      "assignees": ["thomastrinn"]
     }
   ]
 }
