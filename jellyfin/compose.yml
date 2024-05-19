@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
   
   ts-jellyfin:
-    image: tailscale/tailscale:v1.60.0
+    image: tailscale/tailscale:v1.66.3
     hostname: jellyfin
     environment:
       TZ: Europe/Budapest
