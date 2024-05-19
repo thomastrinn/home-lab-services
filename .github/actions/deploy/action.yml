@@ -42,7 +42,7 @@ runs:
         CLIENT_SECRET: ${{ inputs.infisical_client_secret }}
       shell: bash
       run: |
-        ssh $HOST "
+        ssh ${{ inputs.host }} "
             cd \"$DEPLOY_DIR\" || exit
             export PROJECT_ID=$PROJECT_ID
             export CLIENT_ID=$CLIENT_ID
