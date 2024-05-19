@@ -14,7 +14,7 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
             - name: Deploy
-              uses: ./github/actions/deploy
+              uses: ./.github/actions/deploy
               with:
                 host: ${{ secrets.SOLITUDE_HOST }}
                 service_root_dir: ${{ secrets.SOLITUDE_DEPLOY_DIR }}
