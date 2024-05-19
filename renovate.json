@@ -6,11 +6,6 @@
     ":prHourlyLimitNone"
   ],
   "separateMinorPatch": true,
-  "separateMultipleMajor": true,
-  "packageRules": [
-    {
-      "matchPackagePatterns": ["*"],
-      "assignees": ["thomastrinn"]
-    }
+  "separateMultipleMajor": true
   ]
 }
