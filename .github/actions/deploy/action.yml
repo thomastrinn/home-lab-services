@@ -40,6 +40,7 @@ runs:
         PROJECT_ID: ${{ inputs.infisical_project_id }}
         CLIENT_ID: ${{ inputs.infisical_client_id }}
         CLIENT_SECRET: ${{ inputs.infisical_client_secret }}
+        SECRET_PATH: ${{ inputs.infisical_secret_path }}
       shell: bash
       run: |
         ssh ${{ inputs.host }} "
