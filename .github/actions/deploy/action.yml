@@ -30,7 +30,7 @@ runs:
   steps:
     - run: rsync -avz --del ${{ inputs.service_dir_name }} ${{ inputs.host }}:${{ inputs.service_root_dir }}/
       shell: bash
-    - run: rsync -avz service_deploy.sh ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
+    - run: rsync -avz ./.github/service_deploy.sh ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
       shell: bash
     - run: rsync -avz .infisical.json ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
       shell: bash
@@ -49,5 +49,5 @@ runs:
             export CLIENT_ID=$CLIENT_ID
             export CLIENT_SECRET=$CLIENT_SECRET
             export SECRET_PATH=$SECRET_PATH
-            ./.github/service_deploy.sh
+            ./service_deploy.sh
         "
