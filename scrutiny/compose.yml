@@ -26,7 +26,7 @@ services:
       - 'scrutiny-web-config:/opt/scrutiny/config'
     environment:
       SCRUTINY_WEB_INFLUXDB_HOST: 'influxdb'
-      SCRUTINY_NOTIFY_URLS: $NOTIFY_URLS
+      SCRUTINY_NOTIFY_URLS: ${NOTIFY_URLS}
     depends_on:
       influxdb:
         condition: service_healthy
