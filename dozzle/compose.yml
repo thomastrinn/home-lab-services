@@ -7,6 +7,8 @@ services:
   dozzle:
     image: amir20/dozzle:v7.0.5
     network_mode: service:ts-dozzle
+    depends_on:
+      - ts-dozzle
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   
