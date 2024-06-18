@@ -7,7 +7,7 @@ volumes:
 
 services:
   mealie:
-    image: ghcr.io/mealie-recipes/mealie:v1.8.0
+    image: ghcr.io/mealie-recipes/mealie:v1.9.0
     deploy:
       resources:
         limits:
