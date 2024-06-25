@@ -6,7 +6,7 @@ volumes:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.9.6
+    image: linuxserver/jellyfin:10.9.7
     depends_on:
       - ts-jellyfin
     network_mode: service:ts-jellyfin
