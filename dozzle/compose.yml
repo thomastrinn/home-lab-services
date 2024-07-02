@@ -13,7 +13,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   
   ts-dozzle:
-    image: tailscale/tailscale:v1.66.4
+    image: tailscale/tailscale:v1.68.1
     hostname: dozzle
     environment:
       TZ: Europe/Budapest
