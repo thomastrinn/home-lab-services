@@ -5,7 +5,7 @@ volumes:
 
 services:
   dozzle:
-    image: amir20/dozzle:v7.0.5
+    image: amir20/dozzle:v7.0.7
     network_mode: service:ts-dozzle
     depends_on:
       - ts-dozzle
