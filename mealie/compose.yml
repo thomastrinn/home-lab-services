@@ -5,6 +5,10 @@ volumes:
   mealie-db-data:
   ts-mealie-state:
 
+configs:
+  ts-config:
+    file: ./ts-config.json
+
 services:
   mealie:
     image: ghcr.io/mealie-recipes/mealie:v1.10.1
@@ -17,7 +21,7 @@ services:
       mealie-db:
         condition: service_healthy
       ts-mealie:
-        condition: service_started
+        condition: service_healthy
     environment:
       TZ: Europe/Budapest
       ALLOW_SIGNUP: true
@@ -62,6 +66,12 @@ services:
   ts-mealie:
     image: tailscale/tailscale:v1.68.1
     hostname: mealie
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
     cap_add:
       - net_admin
       - sys_module
@@ -74,10 +84,12 @@ services:
       # - select an appropriate tag, for example: container
       TS_AUTHKEY: ${TS_AUTHKEY}
       TS_EXTRA_ARGS: --advertise-tags=tag:container
-      TS_SERVE_CONFIG: /config/mealie.json
       TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
     volumes:
       - ts-mealie-state:/var/lib/tailscale
-      - ./ts-mealie/config:/config:ro
       - /dev/net/tun:/dev/net/tun
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
     restart: unless-stopped
