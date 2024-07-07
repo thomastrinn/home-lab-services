@@ -4,11 +4,16 @@ volumes:
   transmission-config:
   ts-transmission-state:
 
+configs:
+  ts-config:
+    file: ./ts-config.json
+
 services:
   transmission:
     image: linuxserver/transmission:4.0.6
     depends_on:
-      - ts-transmission
+      ts-transmission:
+        condition: service_healthy
     network_mode: service:ts-transmission
     security_opt:
       - no-new-privileges:true
@@ -28,6 +33,12 @@ services:
   ts-transmission:
     image: tailscale/tailscale:v1.68.1
     hostname: transmission
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
     cap_add:
       - net_admin
       - sys_module
@@ -40,10 +51,12 @@ services:
       # - select an appropriate tag, for example: container
       TS_AUTHKEY: ${TS_AUTHKEY}
       TS_EXTRA_ARGS: --advertise-tags=tag:container
-      TS_SERVE_CONFIG: /config/transmission.json
       TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
     volumes:
       - ts-transmission-state:/var/lib/tailscale
-      - ./ts-transmission/config:/config:ro
       - /dev/net/tun:/dev/net/tun
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
     restart: unless-stopped
