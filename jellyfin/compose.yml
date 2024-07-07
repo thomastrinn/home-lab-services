@@ -4,11 +4,16 @@ volumes:
   jellyfin-config:
   ts-jellyfin-state:
 
+configs:
+  ts-config:
+    file: ./ts-config.json
+
 services:
   jellyfin:
     image: linuxserver/jellyfin:10.9.7
     depends_on:
-      - ts-jellyfin
+      ts-jellyfin:
+        condition: service_healthy
     network_mode: service:ts-jellyfin
     environment:
       TZ: Europe/Budapest
@@ -22,6 +27,17 @@ services:
   ts-jellyfin:
     image: tailscale/tailscale:v1.68.1
     hostname: jellyfin
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
+    cap_add:
+      - net_admin
+      - sys_module
+    security_opt:
+      - no-new-privileges:true
     environment:
       TZ: Europe/Budapest
       # generate an OAuth client token
@@ -29,16 +45,13 @@ services:
       # - select an appropriate tag, for example: container
       TS_AUTHKEY: ${TS_AUTHKEY}
       TS_EXTRA_ARGS: --advertise-tags=tag:container
-      TS_SERVE_CONFIG: /config/jellyfin.json
+      TS_SERVE_CONFIG: /config/ts-config.json
       TS_STATE_DIR: /var/lib/tailscale
     volumes:
       - ts-jellyfin-state:/var/lib/tailscale
-      - ./ts-jellyfin/config:/config:ro
       - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - net_admin
-      - sys_module
-    security_opt:
-      - no-new-privileges:true
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
     restart: unless-stopped
     
