@@ -18,6 +18,7 @@ services:
       - no-new-privileges:true
     environment:
       TZ: Europe/Budapest
+    restart: unless-stopped
   
   ts-whoami:
     image: tailscale/tailscale:v1.68.1
