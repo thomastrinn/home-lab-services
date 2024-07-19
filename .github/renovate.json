@@ -6,5 +6,6 @@
     ":prHourlyLimitNone"
   ],
   "separateMinorPatch": true,
-  "separateMultipleMajor": true
+  "separateMultipleMajor": true,
+  "assigneesFromCodeOwners": true
 }
