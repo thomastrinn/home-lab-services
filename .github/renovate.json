@@ -9,12 +9,10 @@
   "separateMultipleMajor": true,
   "assigneesFromCodeOwners": true,
   "labels": ["dependencies"],
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  },
   "packageRules": [
-    {
-      "vulnerabilityAlerts": {
-        "labels": ["security"]
-      }
-    },
     {
       "enabled": true,
       "matchDatasources": [
