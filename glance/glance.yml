@@ -1,0 +1,84 @@
+# Theme: Catppuccin Mocha
+theme:
+  background-color: 240 21 15
+  contrast-multiplier: 1.2
+  primary-color: 217 92 83
+  positive-color: 115 54 76
+  negative-color: 347 70 65
+
+pages:
+  - name: Home
+    columns:
+      - size: small
+        widgets:
+          - type: clock
+            hour-format: 24h
+          - type: calendar
+          - type: weather
+            location: Pécs, Hungary
+            hour-format: 24h
+            units: metric
+      
+      - size: full
+        widgets:
+          - type: search
+            search-engine: https://searxng.bittern-royal.ts.net/?q={QUERY}
+      
+      - size: small
+        widgets:
+          - type: bookmarks
+            groups:
+              - links:
+                  - title: Tailscale
+                    url: https://tailscale.com/
+                  - title: nCore
+                    url: https://ncore.pro/torrents.php
+                  - title: DailyDev
+                    url: https://app.daily.dev/
+                  - title: Github
+                    url: https://github.com/
+                  - title: Blog
+                    url: https://thomastrinn.github.io/blog/
+                  - title: Solitude
+                    url: https://solitude.bittern-royal.ts.net/
+  
+  - name: Services
+    columns:
+      - size: full
+        widgets:
+          - type: monitor
+            cache: 1m
+            title: Services
+            sites:
+              - title: AdGuard Home
+                url: https://raspberrypi.bittern-royal.ts.net
+                icon: si:adguard
+              - title: Transmission
+                url: https://transmission.bittern-royal.ts.net
+                icon: si:transmission
+              - title: FreshRSS
+                url: https://freshrss.bittern-royal.ts.net
+                icon: si:rss
+              - title: Jellyfin
+                url: https://jellyfin.bittern-royal.ts.net
+                icon: si:jellyfin
+              - title: Mealie
+                url: https://mealie.bittern-royal.ts.net
+                icon: si:greasyfork
+              - title: Uptime Kuma
+                url: https://uptime-kuma.bittern-royal.ts.net
+                icon: si:uptimekuma
+              - title: Dozzle
+                url: https://dozzle.bittern-royal.ts.net
+                icon: si:logstash
+              - title: Scrutiny
+                url: https://scrutiny.bittern-royal.ts.net
+                icon: si:googlecloudstorage
+              - title: SearXNG
+                url: https://searxng.bittern-royal.ts.net
+                icon: si:searxng
+              - title: Proxmox
+                url: https://pve.bittern-royal.ts.net
+                icon: si:proxmox
+              
+      

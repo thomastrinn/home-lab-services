@@ -1,0 +1,57 @@
+name: glance
+
+volumes:
+  tailscale-state:
+
+configs:
+  ts-config:
+    file: ./ts-config.json
+  glance-config:
+    file: ./glance.yml
+
+services:
+  glance:
+    image: glanceapp/glance:v0.5.0
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    network_mode: service:tailscale
+    environment:
+      TZ: Europe/Budapest
+    configs:
+      - source: glance-config
+        target: /app/glance.yml
+    restart: unless-stopped
+  
+  tailscale:
+    image: tailscale/tailscale:v1.68.1
+    hostname: glance
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
+    cap_add:
+      - net_admin
+      - sys_module
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      TZ: Europe/Budapest
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
+    restart: unless-stopped
