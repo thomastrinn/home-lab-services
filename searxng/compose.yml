@@ -1,0 +1,70 @@
+name: searxng
+
+volumes:
+  tailscale-state:
+
+configs:
+  searxng-settings:
+    file: ./searxng-settings.yml
+  ts-config:
+    file: ./ts-config.json
+
+services:
+  searxng:
+    image: searxng/searxng:2024.7.7-ef103ba80
+    depends_on:
+      tailscale:
+        condition: service_healthy
+    network_mode: service:tailscale
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    environment:
+      PUID: ${PUID:-1000}
+      PGID: ${PGID:-1000}
+      INSTANCE_NAME: SearXNG
+      SEARXNG_URL: https://searxng.bittern-royal.ts.net/
+      # Generate a random secret key: openssl rand -hex 32
+      SEARXNG_SECRET: ${SEARXNG_SECRET}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    configs:
+      - source: searxng-settings
+        target: /etc/searxng/settings.yml
+    restart: unless-stopped
+  
+  tailscale:
+    image: tailscale/tailscale:v1.68.1
+    hostname: searxng
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
+    cap_add:
+      - net_admin
+      - sys_module
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
+    volumes:
+      - tailscale-state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
+    restart: unless-stopped
