@@ -7,5 +7,26 @@
   ],
   "separateMinorPatch": true,
   "separateMultipleMajor": true,
-  "assigneesFromCodeOwners": true
+  "assigneesFromCodeOwners": true,
+  "packageRules": [
+    {
+      "enabled": true,
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "major"
+      ]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["linuxserver/jellyfin"],
+      "allowedVersions": "!/2021\\.\\d\\d\\.\\d\\d$/"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["linuxserver/transmission"],
+      "allowedVersions": "!/2021\\.\\d\\d\\.\\d\\d$/"
+    }
+  ]
 }
