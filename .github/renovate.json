@@ -8,7 +8,13 @@
   "separateMinorPatch": true,
   "separateMultipleMajor": true,
   "assigneesFromCodeOwners": true,
+  "labels": ["dependencies"],
   "packageRules": [
+    {
+      "vulnerabilityAlerts": {
+        "labels": ["security"]
+      }
+    },
     {
       "enabled": true,
       "matchDatasources": [
