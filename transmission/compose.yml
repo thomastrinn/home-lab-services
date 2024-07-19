@@ -10,7 +10,7 @@ configs:
 
 services:
   transmission:
-    image: linuxserver/transmission:4.0.6
+    image: linuxserver/transmission:2021.11.18
     depends_on:
       ts-transmission:
         condition: service_healthy
