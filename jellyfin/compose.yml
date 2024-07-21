@@ -10,7 +10,7 @@ configs:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.9.7
+    image: linuxserver/jellyfin:10.9.8
     depends_on:
       ts-jellyfin:
         condition: service_healthy
