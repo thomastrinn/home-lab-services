@@ -11,4 +11,4 @@ infisical run \
     --projectId="$PROJECT_ID" \
     --path="$SECRET_PATH" \
     --env=prod \
-    --command='docker compose up -d --pull always --force-recreate'
+    --command='docker compose up -d --pull always --force-recreate --remove-orphans'
