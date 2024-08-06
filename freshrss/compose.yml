@@ -52,7 +52,7 @@ services:
       - freshrss-db-data:/var/lib/postgresql/data
  
   tailscale:
-    image: tailscale/tailscale:v1.68.1
+    image: tailscale/tailscale:v1.70.0
     hostname: freshrss
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
