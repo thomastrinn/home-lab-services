@@ -64,7 +64,7 @@ services:
     restart: unless-stopped
   
   ts-mealie:
-    image: tailscale/tailscale:v1.68.1
+    image: tailscale/tailscale:v1.70.0
     hostname: mealie
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
