@@ -16,9 +16,9 @@ services:
         condition: service_healthy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-  
+
   ts-dozzle:
-    image: tailscale/tailscale:v1.68.1
+    image: tailscale/tailscale:v1.72.1
     hostname: dozzle
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
