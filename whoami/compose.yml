@@ -19,9 +19,9 @@ services:
     environment:
       TZ: Europe/Budapest
     restart: unless-stopped
-  
+
   ts-whoami:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: whoami
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
