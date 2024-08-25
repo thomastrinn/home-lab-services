@@ -29,9 +29,9 @@ services:
       - /data/downloads:/downloads
       - /data/torrent:/watch
     restart: unless-stopped
-  
+
   ts-transmission:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: transmission
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
