@@ -23,11 +23,11 @@ services:
     environment:
       TZ: Europe/Budapest
       # Cron job to refresh feeds at specified minutes
-      CRON_MIN: '*/20'
+      CRON_MIN: "*/20"
     volumes:
       - freshrss-data:/var/www/FreshRSS/data
       - freshrss-extensions:/var/www/FreshRSS/extensions
-  
+
   freshrss-db:
     image: postgres:16.3
     restart: unless-stopped
@@ -50,9 +50,9 @@ services:
       - no-new-privileges:true
     volumes:
       - freshrss-db-data:/var/lib/postgresql/data
- 
+
   tailscale:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: freshrss
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
