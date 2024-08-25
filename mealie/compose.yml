@@ -1,4 +1,4 @@
-name: 'mealie'
+name: "mealie"
 
 volumes:
   mealie-data:
@@ -42,7 +42,7 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-  
+
   mealie-db:
     image: postgres:15.7
     network_mode: service:ts-mealie
@@ -62,9 +62,9 @@ services:
     security_opt:
       - no-new-privileges:true
     restart: unless-stopped
-  
+
   ts-mealie:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: mealie
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
