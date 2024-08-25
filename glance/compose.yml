@@ -22,9 +22,9 @@ services:
       - source: glance-config
         target: /app/glance.yml
     restart: unless-stopped
-  
+
   tailscale:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: glance
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
