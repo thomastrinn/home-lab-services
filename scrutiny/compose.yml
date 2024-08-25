@@ -17,7 +17,7 @@ services:
       ts-scrutiny:
         condition: service_healthy
     volumes:
-      - 'influxdb:/var/lib/influxdb2'
+      - "influxdb:/var/lib/influxdb2"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
       interval: 5s
@@ -26,12 +26,12 @@ services:
     restart: unless-stopped
 
   web:
-    image: 'ghcr.io/analogj/scrutiny:v0.8.1-web'
+    image: "ghcr.io/analogj/scrutiny:v0.8.1-web"
     network_mode: service:ts-scrutiny
     volumes:
-      - 'scrutiny-web-config:/opt/scrutiny/config'
+      - "scrutiny-web-config:/opt/scrutiny/config"
     environment:
-      SCRUTINY_WEB_INFLUXDB_HOST: 'localhost'
+      SCRUTINY_WEB_INFLUXDB_HOST: "localhost"
       SCRUTINY_NOTIFY_URLS: ${NOTIFY_URLS}
     depends_on:
       ts-scrutiny:
@@ -47,18 +47,18 @@ services:
     restart: unless-stopped
 
   collector:
-    image: 'ghcr.io/analogj/scrutiny:v0.8.1-collector'
+    image: "ghcr.io/analogj/scrutiny:v0.8.1-collector"
     network_mode: service:ts-scrutiny
     cap_add:
       - SYS_RAWIO
     security_opt:
       - no-new-privileges:true
     volumes:
-      - '/run/udev:/run/udev:ro'
+      - "/run/udev:/run/udev:ro"
     environment:
-      COLLECTOR_API_ENDPOINT: 'http://localhost:8080'
-      COLLECTOR_HOST_ID: 'Solitude'
-      COLLECTOR_CRON_SCHEDULE: '0 0 * * *'
+      COLLECTOR_API_ENDPOINT: "http://localhost:8080"
+      COLLECTOR_HOST_ID: "Solitude"
+      COLLECTOR_CRON_SCHEDULE: "0 0 * * *"
       COLLECTOR_RUN_STARTUP: true
     depends_on:
       ts-scrutiny:
@@ -71,9 +71,9 @@ services:
       - /dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S3R0NF0J828721F:/dev/sdc
       - /dev/disk/by-id/ata-WDC_WD20SPZX-22UA7T0_WD-WXT2E319NKCA:/dev/sdd
     restart: unless-stopped
-  
+
   ts-scrutiny:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: scrutiny
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
