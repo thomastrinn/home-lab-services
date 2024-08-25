@@ -23,9 +23,9 @@ services:
       - jellyfin-config:/config
       - /data/media:/data
     restart: unless-stopped
-  
+
   ts-jellyfin:
-    image: tailscale/tailscale:v1.70.0
+    image: tailscale/tailscale:v1.72.1
     hostname: jellyfin
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
@@ -56,4 +56,3 @@ services:
       - source: ts-config
         target: /config/ts-config.json
     restart: unless-stopped
-    
