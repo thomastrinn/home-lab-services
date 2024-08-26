@@ -2,7 +2,7 @@ name: jellyfin
 
 volumes:
   jellyfin-config:
-  ts-jellyfin-state:
+  tailscale-state:
 
 configs:
   ts-config:
@@ -19,12 +19,13 @@ services:
       TZ: Europe/Budapest
       PUID: 1000
       PGID: 1000
+      JELLYFIN_PublishedServerUrl: jellyfin.bittern-royal.ts.net
     volumes:
       - jellyfin-config:/config
       - /data/media:/data
     restart: unless-stopped
 
-  ts-jellyfin:
+  tailscale:
     image: tailscale/tailscale:v1.72.1
     hostname: jellyfin
     healthcheck:
@@ -39,15 +40,16 @@ services:
     security_opt:
       - no-new-privileges:true
     environment:
+      TZ: Europe/Budapest
       # generate an OAuth client token
       # - select Devices: Write
       # - select an appropriate tag, for example: container
       TS_AUTHKEY: ${TS_AUTHKEY}
-      TS_EXTRA_ARGS: --advertise-tags=tag:container --reset
-      TS_SERVE_CONFIG: /config/ts-config.json
+      TS_EXTRA_ARGS: --advertise-tags=tag:container
       TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
     volumes:
-      - ts-jellyfin-state:/var/lib/tailscale
+      - tailscale-state:/var/lib/tailscale
       - /dev/net/tun:/dev/net/tun
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
