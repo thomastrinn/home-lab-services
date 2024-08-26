@@ -12,9 +12,9 @@ services:
   jellyfin:
     image: linuxserver/jellyfin:10.9.10
     depends_on:
-      ts-jellyfin:
+      tailscale:
         condition: service_healthy
-    network_mode: service:ts-jellyfin
+    network_mode: service:tailscale
     environment:
       TZ: Europe/Budapest
       PUID: 1000
