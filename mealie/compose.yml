@@ -44,7 +44,7 @@ services:
     restart: unless-stopped
 
   mealie-db:
-    image: postgres:15.7
+    image: postgres:15.8
     network_mode: service:ts-mealie
     depends_on:
       - ts-mealie
