@@ -10,6 +10,7 @@ search:
 
 server:
   limiter: false
+  image_proxy: true
 
 redis:
   url: redis://localhost:6379/0
@@ -17,6 +18,8 @@ redis:
 ui:
   static_use_hash: true
   center_alignment: true
+  infinite_scroll: true
+  results_on_new_tab: true
 
 categories_as_tabs:
   general:
