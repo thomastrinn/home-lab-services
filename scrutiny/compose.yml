@@ -13,9 +13,9 @@ services:
   influxdb:
     image: influxdb:2.7
     network_mode: service:ts-scrutiny
-    depends_on:
-      ts-scrutiny:
-        condition: service_healthy
+    #depends_on:
+    #  ts-scrutiny:
+    #    condition: service_healthy
     volumes:
       - "influxdb:/var/lib/influxdb2"
     healthcheck:
@@ -34,8 +34,8 @@ services:
       SCRUTINY_WEB_INFLUXDB_HOST: "localhost"
       SCRUTINY_NOTIFY_URLS: ${NOTIFY_URLS}
     depends_on:
-      ts-scrutiny:
-        condition: service_healthy
+      #ts-scrutiny:
+      #  condition: service_healthy
       influxdb:
         condition: service_healthy
     healthcheck:
@@ -61,8 +61,8 @@ services:
       COLLECTOR_CRON_SCHEDULE: "0 0 * * *"
       COLLECTOR_RUN_STARTUP: true
     depends_on:
-      ts-scrutiny:
-        condition: service_healthy
+      #ts-scrutiny:
+      #  condition: service_healthy
       web:
         condition: service_healthy
     devices:

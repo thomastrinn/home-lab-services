@@ -12,9 +12,9 @@ configs:
 services:
   searxng:
     image: searxng/searxng:2024.7.7-ef103ba80
-    depends_on:
-      tailscale:
-        condition: service_healthy
+    #depends_on:
+    #  tailscale:
+    #    condition: service_healthy
     network_mode: service:tailscale
     cap_drop:
       - ALL

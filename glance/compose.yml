@@ -12,9 +12,9 @@ configs:
 services:
   glance:
     image: glanceapp/glance:v0.6.2
-    depends_on:
-      tailscale:
-        condition: service_healthy
+    #depends_on:
+    #  tailscale:
+    #    condition: service_healthy
     network_mode: service:tailscale
     environment:
       TZ: Europe/Budapest

@@ -20,8 +20,8 @@ services:
     depends_on:
       mealie-db:
         condition: service_healthy
-      ts-mealie:
-        condition: service_healthy
+      #ts-mealie:
+      #  condition: service_healthy
     environment:
       TZ: Europe/Budapest
       ALLOW_SIGNUP: true

@@ -11,9 +11,9 @@ configs:
 services:
   uptime-kuma:
     image: louislam/uptime-kuma:1.23.15
-    depends_on:
-      ts-uptime-kuma:
-        condition: service_healthy
+    #depends_on:
+    #  ts-uptime-kuma:
+    #    condition: service_healthy
     network_mode: service:ts-uptime-kuma
     volumes:
       - uptime-kuma-data:/app/data

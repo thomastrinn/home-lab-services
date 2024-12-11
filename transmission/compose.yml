@@ -11,9 +11,9 @@ configs:
 services:
   transmission:
     image: linuxserver/transmission:4.0.6
-    depends_on:
-      ts-transmission:
-        condition: service_healthy
+    #depends_on:
+    #  ts-transmission:
+    #    condition: service_healthy
     network_mode: service:ts-transmission
     security_opt:
       - no-new-privileges:true

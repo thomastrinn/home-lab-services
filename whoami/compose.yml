@@ -10,9 +10,9 @@ configs:
 services:
   whoami:
     image: traefik/whoami
-    depends_on:
-      ts-whoami:
-        condition: service_healthy
+    #depends_on:
+    #  ts-whoami:
+    #    condition: service_healthy
     network_mode: service:ts-whoami
     security_opt:
       - no-new-privileges:true

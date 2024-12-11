@@ -37,9 +37,9 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    depends_on:
-      tailscale:
-        condition: service_healthy
+    #depends_on:
+    #  tailscale:
+    #    condition: service_healthy
     network_mode: service:tailscale
     environment:
       TZ: Europe/Budapest
