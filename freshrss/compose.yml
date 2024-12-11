@@ -15,8 +15,8 @@ services:
     image: freshrss/freshrss:1.24.3-alpine
     restart: unless-stopped
     depends_on:
-      tailscale:
-        condition: service_healthy
+      #tailscale:
+      #  condition: service_healthy
       freshrss-db:
         condition: service_healthy
     network_mode: service:tailscale
