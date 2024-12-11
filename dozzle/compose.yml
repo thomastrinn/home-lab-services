@@ -11,9 +11,9 @@ services:
   dozzle:
     image: amir20/dozzle:v8.8.3
     network_mode: service:ts-dozzle
-    depends_on:
-      ts-dozzle:
-        condition: service_healthy
+    #depends_on:
+    #  ts-dozzle:
+    #    condition: service_healthy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
