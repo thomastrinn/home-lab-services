@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
 
   tailscale:
-    image: tailscale/tailscale:v1.72.1
+    image: tailscale/tailscale:v1.78.1
     hostname: glance
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
