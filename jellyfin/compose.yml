@@ -23,6 +23,9 @@ services:
     volumes:
       - jellyfin-config:/config
       - /data/media:/data
+    devices:
+      - /dev/dri:/dev/dri       # GPU acceleration
+      - /dev/video0:/dev/video0 # V4L2 device
     restart: unless-stopped
 
   tailscale:
