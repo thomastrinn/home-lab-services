@@ -9,7 +9,7 @@ configs:
 
 services:
   dozzle:
-    image: amir20/dozzle:v8.8.3
+    image: amir20/dozzle:v8.10.6
     network_mode: service:ts-dozzle
     #depends_on:
     #  ts-dozzle:
