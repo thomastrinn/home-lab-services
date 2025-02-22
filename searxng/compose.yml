@@ -12,6 +12,8 @@ configs:
 services:
   searxng:
     image: searxng/searxng:2024.7.7-ef103ba80
+    depends_on:
+      - tailscale
     #depends_on:
     #  tailscale:
     #    condition: service_healthy
