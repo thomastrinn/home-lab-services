@@ -18,7 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   ts-dozzle:
-    image: tailscale/tailscale:v1.80.0
+    image: tailscale/tailscale:v1.80.3
     hostname: dozzle
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
