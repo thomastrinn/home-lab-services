@@ -11,14 +11,13 @@ services:
   dozzle:
     image: amir20/dozzle:v8.11.8
     network_mode: service:ts-dozzle
-    #depends_on:
-    #  ts-dozzle:
-    #    condition: service_healthy
+    depends_on:
+      - ts-dozzle
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
   ts-dozzle:
-    image: tailscale/tailscale:v1.80.0
+    image: tailscale/tailscale:stable
     hostname: dozzle
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
