@@ -11,9 +11,9 @@ configs:
 services:
   uptime-kuma:
     image: louislam/uptime-kuma:1.23.16
-    #depends_on:
-    #  ts-uptime-kuma:
-    #    condition: service_healthy
+    depends_on:
+      ts-uptime-kuma:
+        condition: service_started
     network_mode: service:ts-uptime-kuma
     volumes:
       - uptime-kuma-data:/app/data
@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
   
   ts-uptime-kuma:
-    image: tailscale/tailscale:v1.80.0
+    image: tailscale/tailscale:stable
     hostname: uptime-kuma
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
@@ -31,11 +31,7 @@ services:
       start_period: 7s
     cap_add:
       - net_admin
-      - sys_module
-    security_opt:
-      - no-new-privileges:true
     environment:
-      TZ: Europe/Budapest
       # generate an OAuth client token
       # - select Devices: Write
       # - select an appropriate tag, for example: container
@@ -43,9 +39,12 @@ services:
       TS_EXTRA_ARGS: --advertise-tags=tag:container
       TS_STATE_DIR: /var/lib/tailscale
       TS_SERVE_CONFIG: /config/ts-config.json
+    devices:
+       - /dev/net/tun:/dev/net/tun
     volumes:
       - ts-uptime-kuma-state:/var/lib/tailscale
-      - /dev/net/tun:/dev/net/tun
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
     configs:
       - source: ts-config
         target: /config/ts-config.json
