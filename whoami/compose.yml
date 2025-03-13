@@ -10,9 +10,17 @@ configs:
 services:
   whoami:
     image: traefik/whoami
-    #depends_on:
-    #  ts-whoami:
-    #    condition: service_healthy
+    depends_on:
+      ts-whoami:
+        condition: service_started
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 20M
+        reservations:
+          cpus: '0.05'
+          memory: 10M
     network_mode: service:ts-whoami
     security_opt:
       - no-new-privileges:true
@@ -23,6 +31,14 @@ services:
   ts-whoami:
     image: tailscale/tailscale:stable
     hostname: whoami
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
     healthcheck:
       test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
       interval: 10s
