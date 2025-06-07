@@ -66,10 +66,8 @@ services:
       web:
         condition: service_healthy
     devices:
-      - /dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S2R6NX0J148963D:/dev/sda
-      - /dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S2R6NX0JB33102W:/dev/sdb
-      - /dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S3R0NF0J828721F:/dev/sdc
-      - /dev/disk/by-id/ata-WDC_WD20SPZX-22UA7T0_WD-WXT2E319NKCA:/dev/sdd
+      - /dev/disk/by-id/ata-Samsung_SSD_850_EVO_250GB_S2R6NX0JB33102W:/dev/sda
+      - /dev/disk/by-id/ata-WDC_WD20SPZX-22UA7T0_WD-WXT2E319NKCA:/dev/sdb
     restart: unless-stopped
 
   ts-scrutiny:
