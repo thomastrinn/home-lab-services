@@ -12,7 +12,7 @@ configs:
 
 services:
   freshrss:
-    image: freshrss/freshrss:1.26.3-alpine
+    image: freshrss/freshrss:1.27.0-alpine
     restart: unless-stopped
     depends_on:
       tailscale:
