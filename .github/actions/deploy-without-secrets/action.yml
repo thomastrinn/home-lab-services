@@ -1,0 +1,31 @@
+name: Service deployer
+description: Deploys a service to a remote host
+
+inputs:
+  host:
+    description: The host where the service gets deployed
+    required: true
+  service_root_dir:
+    description: The deployment root directory where the service gets deployed
+    required: true
+  service_dir_name:
+    description: The name of the service directory
+    required: true
+
+runs:
+  using: "composite"
+
+  steps:
+    - run: rsync -avz --del ${{ inputs.service_dir_name }} ${{ inputs.host }}:${{ inputs.service_root_dir }}/
+      shell: bash
+    - run: rsync -avz ./.github/service_deploy.sh ${{ inputs.host }}:${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
+      shell: bash
+    - name: Deploy
+      env: 
+        DEPLOY_DIR: ${{ inputs.service_root_dir }}/${{ inputs.service_dir_name }}
+      shell: bash
+      run: |
+        ssh ${{ inputs.host }} "
+            cd \"$DEPLOY_DIR\" || exit
+            docker compose pull && docker compose down --remove-orphans && docker compose up -d
+        "
