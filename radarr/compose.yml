@@ -1,0 +1,56 @@
+name: radarr
+
+volumes:
+  radarr-config:
+  ts-radarr-state:
+
+configs:
+  ts-config:
+    file: ./ts-config.json
+
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:5.27.5
+    depends_on:
+      ts-radarr:
+        condition: service_started
+    network_mode: service:ts-radarr
+    environment:
+      PUID: 1000
+      PGID: 1000
+      TZ: Europe/Budapest
+    volumes:
+      - radarr-config:/config
+      - /data/media/movies:/movies
+      - /data/downloads:/downloads
+    restart: unless-stopped
+
+  ts-radarr:
+    image: tailscale/tailscale:stable
+    hostname: radarr
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
+    cap_add:
+      - net_admin
+    environment:
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container --reset
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
+    devices:
+       - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ts-radarr-state:/var/lib/tailscale
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
+    restart: unless-stopped
