@@ -42,6 +42,7 @@ services:
       TS_EXTRA_ARGS: --advertise-tags=tag:container --reset
       TS_STATE_DIR: /var/lib/tailscale
       TS_SERVE_CONFIG: /config/ts-config.json
+      TS_ACCEPT_DNS: "true"
     devices:
        - /dev/net/tun:/dev/net/tun
     volumes:
