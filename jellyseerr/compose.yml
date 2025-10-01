@@ -1,0 +1,59 @@
+name: jellyseerr
+
+volumes:
+  jellyseerr-config:
+  ts-jellyseerr-state:
+
+configs:
+  ts-config:
+    file: ./ts-config.json
+
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:2.7.3
+    depends_on:
+      ts-jellyseerr:
+        condition: service_started
+    network_mode: service:ts-jellyseerr
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:5055/api/v1/status || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+      retries: 3
+    environment:
+      TZ: Europe/Budapest
+    volumes:
+      - jellyseerr-config:/app/config
+    restart: unless-stopped
+
+  ts-jellyseerr:
+    image: tailscale/tailscale:stable
+    hostname: jellyseerr
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale", "-c", "1", "hello.ts.net"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 7s
+    cap_add:
+      - net_admin
+    environment:
+      # generate an OAuth client token
+      # - select Devices: Write
+      # - select an appropriate tag, for example: container
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_EXTRA_ARGS: --advertise-tags=tag:container --reset
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SERVE_CONFIG: /config/ts-config.json
+      TS_USERSPACE: false
+    devices:
+       - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ts-jellyseerr-state:/var/lib/tailscale
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    configs:
+      - source: ts-config
+        target: /config/ts-config.json
+    restart: unless-stopped
