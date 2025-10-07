@@ -11,7 +11,7 @@ configs:
 
 services:
   searxng:
-    image: searxng/searxng:2024.7.7-ef103ba80
+    image: searxng/searxng:2025.10.4-7bf65d68c
     depends_on:
       tailscale:
         condition: service_started
