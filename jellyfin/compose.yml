@@ -10,7 +10,7 @@ configs:
 
 services:
   jellyfin:
-    image: linuxserver/jellyfin:10.10.7
+    image: linuxserver/jellyfin:10.11.0
     depends_on:
       tailscale:
         condition: service_started
