@@ -40,7 +40,9 @@ pages:
                   - title: Blog
                     url: https://thomastrinn.github.io/blog/
                   - title: Solitude
-                    url: https://solitude.bittern-royal.ts.net/
+                    url: https://solitude.bittern-royal.ts.net
+                  - title: UpSnap
+                    url: http://raspberrypi.bittern-royal.ts.net:8090
   
   - name: Services
     columns:
