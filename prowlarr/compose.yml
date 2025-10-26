@@ -10,7 +10,7 @@ configs:
 
 services:
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:2.0.5
+    image: lscr.io/linuxserver/prowlarr:2.1.5
     depends_on:
       ts-prowlarr:
         condition: service_started
