@@ -29,7 +29,7 @@ services:
       - freshrss-extensions:/var/www/FreshRSS/extensions
 
   freshrss-db:
-    image: postgres:16.3
+    image: postgres:18.1
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
