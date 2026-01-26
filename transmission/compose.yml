@@ -26,8 +26,7 @@ services:
       DOCKER_MODS: linuxserver/mods:transmission-floodui
     volumes:
       - transmission-config:/config
-      - /data/downloads:/downloads
-      - /data/torrent:/watch
+      - /data/downloads:/data/downloads
     restart: unless-stopped
 
   ts-transmission:

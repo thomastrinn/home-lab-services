@@ -21,8 +21,7 @@ services:
       TZ: Europe/Budapest
     volumes:
       - radarr-config:/config
-      - /data/media/movies:/movies
-      - /data/downloads:/downloads
+      - /data:/data
     restart: unless-stopped
 
   ts-radarr:

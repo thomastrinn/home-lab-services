@@ -21,8 +21,7 @@ services:
       TZ: Europe/Budapest
     volumes:
       - sonarr-config:/config
-      - /data/media/shows:/shows
-      - /data/downloads:/downloads
+      - /data:/data
     restart: unless-stopped
 
   ts-sonarr:
