@@ -11,7 +11,7 @@ configs:
 
 services:
   influxdb:
-    image: influxdb:2.7
+    image: influxdb:2.8
     network_mode: service:ts-scrutiny
     depends_on:
       ts-scrutiny:
