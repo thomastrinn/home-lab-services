@@ -10,7 +10,7 @@ configs:
 
 services:
   transmission:
-    image: linuxserver/transmission:4.1.1
+    image: linuxserver/transmission:4.1.3
     depends_on:
       ts-transmission:
         condition: service_started
