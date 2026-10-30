@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   web:
-    image: "ghcr.io/analogj/scrutiny:v0.8.1-web"
+    image: "ghcr.io/analogj/scrutiny:v0.8.6-web"
     network_mode: service:ts-scrutiny
     volumes:
       - "scrutiny-web-config:/opt/scrutiny/config"
@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
 
   collector:
-    image: "ghcr.io/analogj/scrutiny:v0.8.1-collector"
+    image: "ghcr.io/analogj/scrutiny:v0.8.6-collector"
     network_mode: service:ts-scrutiny
     cap_add:
       - SYS_RAWIO
