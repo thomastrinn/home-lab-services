@@ -10,7 +10,7 @@ configs:
 
 services:
   radarr:
-    image: lscr.io/linuxserver/radarr:6.4.4
+    image: lscr.io/linuxserver/radarr:7.0.3
     depends_on:
       ts-radarr:
         condition: service_started
